@@ -100,7 +100,7 @@ NEXT_PUBLIC_SERVER_URL=http://localhost:4000
 
 ```bash
 yarn workspace @movie-hype/server generate
-yarn workspace @movie-hype/server migrate
+yarn workspace @movie-hype/server generate
 ```
 
 5) Optional seed (server)
@@ -165,7 +165,6 @@ Notes:
 
 - TypeScript: strict mode; prefer explicit, descriptive names.
 - ESM across packages (`"type": "module"` in `server`).
-- Formatting: Prettier; run `npm run format` before commits.
 - Use `yarn format` before commits.
 - Paths: Use `@shared/*` to import from `shared/` in TS.
 - Avoid deep nesting; prefer guard clauses and small, testable functions.
