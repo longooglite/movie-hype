@@ -67,19 +67,19 @@ Migrations/config: see “Prisma 7 configuration” below.
 
 ### First‑time setup
 
-1) Install dependencies
+1. Install dependencies
 
 ```bash
 yarn install
 ```
 
-2) Start Postgres and Redis (optional; or point to existing services)
+2. Start Postgres and Redis (optional; or point to existing services)
 
 ```bash
 docker compose up -d
 ```
 
-3) Environment variables
+3. Environment variables
 
 - Create `server/.env`:
 
@@ -96,20 +96,20 @@ TMDB_API_KEY= # optional; if omitted, the server emits mock events
 NEXT_PUBLIC_SERVER_URL=http://localhost:4000
 ```
 
-4) Generate client and run migrations (server)
+4. Generate client and run migrations (server)
 
 ```bash
 yarn workspace @movie-hype/server generate
 yarn workspace @movie-hype/server generate
 ```
 
-5) Optional seed (server)
+5. Optional seed (server)
 
 ```bash
 yarn workspace @movie-hype/server seed
 ```
 
-6) Start both apps
+6. Start both apps
 
 ```bash
 yarn dev
@@ -158,6 +158,7 @@ yarn workspace @movie-hype/server test
 ```
 
 Notes:
+
 - Server tests stub Prisma and Redis where needed; use `vi.stubEnv` for env overrides.
 - The health endpoint and live events are covered at a basic level—prefer adding focused unit tests near new logic.
 
@@ -177,14 +178,14 @@ Notes:
 
 ```json
 {
-  "movie": { "id": "cuid", "tmdbId": 123, "title": "Title" },
-  "snapshot": {
-    "id": "cuid",
-    "movieId": "cuid",
-    "timestamp": "2024-01-01T00:00:00.000Z",
-    "hypeScore": 42,
-    "popularity": 50
-  }
+	"movie": { "id": "cuid", "tmdbId": 123, "title": "Title" },
+	"snapshot": {
+		"id": "cuid",
+		"movieId": "cuid",
+		"timestamp": "2024-01-01T00:00:00.000Z",
+		"hypeScore": 42,
+		"popularity": 50
+	}
 }
 ```
 
@@ -193,19 +194,19 @@ Client consumes via `useSocket` pointing to `NEXT_PUBLIC_SERVER_URL + /events`.
 ## Common tasks
 
 - Add a new DB field/model:
-  1) Edit `server/prisma/schema.prisma`.
-  2) `npm run migrate -w server`.
-  3) Regenerate client: `npm run generate -w server`.
-  4) Update server logic and client types/UI accordingly.
+  1. Edit `server/prisma/schema.prisma`.
+  2. `npm run migrate -w server`.
+  3. Regenerate client: `npm run generate -w server`.
+  4. Update server logic and client types/UI accordingly.
 
 - Add a new API route:
-  1) Add a Fastify route in `server/src/index.ts` or a new module.
-  2) Validate inputs (e.g., `zod`) and return typed responses.
-  3) Add tests in `server/src/*.test.ts`.
+  1. Add a Fastify route in `server/src/index.ts` or a new module.
+  2. Validate inputs (e.g., `zod`) and return typed responses.
+  3. Add tests in `server/src/*.test.ts`.
 
 - Emit a new realtime event:
-  1) Emit from worker or a route via `app.io.of('/events').emit('name', payload)`.
-  2) Subscribe in client with `useSocket(serverUrl + '/events', 'name')`.
+  1. Emit from worker or a route via `app.io.of('/events').emit('name', payload)`.
+  2. Subscribe in client with `useSocket(serverUrl + '/events', 'name')`.
 
 ## Troubleshooting
 
@@ -233,5 +234,3 @@ Client consumes via `useSocket` pointing to `NEXT_PUBLIC_SERVER_URL + /events`.
 - Read `server/src/index.ts` (routes, Socket.IO, Prisma init).
 - Skim `server/src/services/worker.ts` (ingestion + event flow).
 - Run locally and watch the client console area update with live `hype` events.
-
-
