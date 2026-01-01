@@ -1,6 +1,5 @@
 import { vi, it, expect, describe } from 'vitest'
 import { buildServer } from './index'
-
 vi.mock('@prisma/client', () => {
 	class PrismaClient {
 		$queryRaw = vi.fn().mockResolvedValue([1])
@@ -10,7 +9,6 @@ vi.mock('@prisma/client', () => {
 	}
 	return { PrismaClient }
 })
-
 vi.mock('ioredis', () => {
 	return {
 		default: class MockRedis {
@@ -20,7 +18,6 @@ vi.mock('ioredis', () => {
 		},
 	}
 })
-
 describe('health endpoint', () => {
 	it('returns ok when db and redis are reachable', async () => {
 		vi.stubEnv('NODE_ENV', 'test')
