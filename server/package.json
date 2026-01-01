@@ -1,0 +1,36 @@
+{
+  "name": "@movie-hype/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "migrate": "prisma migrate dev",
+    "generate": "prisma generate",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "@fastify/cors": "^10.0.0",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "fastify-socket.io": "^5.0.1",
+    "ioredis": "^5.4.1",
+    "pino": "^9.0.0",
+    "socket.io": "^4.7.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "prisma": "^5.18.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.0.5"
+  }
+}
+
+
