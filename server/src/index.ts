@@ -24,6 +24,12 @@ export const buildServer = async () => {
 	const prisma = new PrismaClient()
 	const redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379')
 
+	// Graceful shutdown: ensure Prisma and Redis disconnect
+	app.addHook('onClose', async () => {
+		await prisma.$disconnect()
+		await redis.quit()
+	})
+
 	// Health endpoint
 	app.get('/health', async () => {
 		try {
@@ -75,6 +81,17 @@ buildServer()
 			}
 			app.log.info(`server listening on ${address}`)
 		})
+
+		const handleSig = async (signal: string) => {
+			app.log.info({ signal }, 'shutting down')
+			try {
+				await app.close()
+			} finally {
+				process.exit(0)
+			}
+		}
+		process.on('SIGINT', handleSig)
+		process.on('SIGTERM', handleSig)
 	})
 	.catch((err) => {
 		logger.error({ err }, 'failed to start server')
