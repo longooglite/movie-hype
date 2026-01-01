@@ -5,7 +5,8 @@
 	--accent: #5b9cff;
 }
 
-html, body {
+html,
+body {
 	height: 100%;
 }
 
@@ -15,7 +16,9 @@ body {
 	color: var(--fg);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
 	margin: 0 0 8px;
 }
 
@@ -27,8 +30,10 @@ h1, h2, h3 {
 }
 
 @keyframes skeleton {
-	0% { background-position: 200% 0; }
-	100% { background-position: -200% 0; }
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
 }
-
-

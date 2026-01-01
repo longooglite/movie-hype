@@ -1,11 +1,9 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.server"
-  },
-  "include": ["src", "env.d.ts"]
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.server"
+	},
+	"include": ["src", "env.d.ts"]
 }
-
-

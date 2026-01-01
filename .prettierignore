@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+.turbo
+coverage
+build
+server/prisma/migrations
+server/prisma/*.db
+
+

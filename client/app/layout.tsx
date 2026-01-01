@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import "./globals.css";
-import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import './globals.css'
+import { ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
@@ -13,9 +13,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 				<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 			</body>
 		</html>
-	);
-};
+	)
+}
 
-export default RootLayout;
-
-
+export default RootLayout
