@@ -5,5 +5,3 @@ declare module 'fastify' {
 		io: IOServer
 	}
 }
-
-
