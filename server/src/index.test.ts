@@ -23,7 +23,7 @@ vi.mock('ioredis', () => {
 
 describe('health endpoint', () => {
 	it('returns ok when db and redis are reachable', async () => {
-		process.env.NODE_ENV = 'test'
+		vi.stubEnv('NODE_ENV', 'test')
 		const app = await buildServer()
 		const res = await app.inject({ method: 'GET', url: '/health' })
 		expect(res.statusCode).toBe(200)

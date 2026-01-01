@@ -1,6 +1,7 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import fastifySocketIO from 'fastify-socket.io'
+import { type Socket, type DisconnectReason } from 'socket.io'
 import { PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import pg from 'pg'
@@ -31,7 +32,7 @@ export const buildServer = async () => {
 		connectionString: process.env.DATABASE_URL,
 	})
 	const adapter = new PrismaPg(pool)
-	const prisma = new PrismaClient({ adapter })
+	const prisma = new PrismaClient({ adapter } as any)
 	const redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379')
 
 	// Graceful shutdown: ensure Prisma and Redis disconnect
@@ -60,9 +61,9 @@ export const buildServer = async () => {
 	})
 
 	// Socket.IO namespace
-	app.io.of('/events').on('connection', (socket) => {
+	app.io.of('/events').on('connection', (socket: Socket) => {
 		logger.info({ id: socket.id }, 'client connected to /events')
-		socket.on('disconnect', (reason) => {
+		socket.on('disconnect', (reason: DisconnectReason) => {
 			logger.info({ id: socket.id, reason }, 'client disconnected from /events')
 		})
 	})
