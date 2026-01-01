@@ -1,3 +1,4 @@
+import { vi, it, expect, describe } from 'vitest'
 import { buildServer } from './index'
 
 vi.mock('@prisma/client', () => {
