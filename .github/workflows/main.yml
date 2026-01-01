@@ -23,6 +23,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Prettier format check
+        run: npm run format:check
+
+      - name: Prisma schema validate
+        run: npm run validate -w server
+
       - name: Run tests
         run: npm test
 

@@ -1,6 +1,8 @@
+import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Page from './page'
+import { vi, describe, it, expect } from 'vitest'
 
 vi.mock('socket.io-client', () => ({
 	io: () => ({
@@ -13,7 +15,6 @@ vi.mock('socket.io-client', () => ({
 describe('Page', () => {
 	it('renders health info', async () => {
 		// Mock fetch for health
-		// @ts-expect-error assign global fetch
 		global.fetch = vi.fn().mockResolvedValue({
 			ok: true,
 			json: async () => ({ ok: true, database: 'ok', redis: 'ok' }),

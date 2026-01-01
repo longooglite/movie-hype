@@ -14,7 +14,11 @@ const logger = pino({
 })
 
 export const buildServer = async () => {
-	const app = Fastify({ logger })
+	const app = Fastify({
+		logger: {
+			level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+		},
+	})
 
 	await app.register(cors, { origin: true })
 	await app.register(fastifySocketIO, {
@@ -23,6 +27,12 @@ export const buildServer = async () => {
 
 	const prisma = new PrismaClient()
 	const redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379')
+
+	// Graceful shutdown: ensure Prisma and Redis disconnect
+	app.addHook('onClose', async () => {
+		await prisma.$disconnect()
+		await redis.quit()
+	})
 
 	// Health endpoint
 	app.get('/health', async () => {
@@ -66,17 +76,30 @@ export const buildServer = async () => {
 
 const port = Number(process.env.PORT ?? 4000)
 
-buildServer()
-	.then((app) => {
-		app.listen({ host: '0.0.0.0', port }, (err, address) => {
-			if (err) {
-				app.log.error(err)
-				process.exit(1)
+if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
+	buildServer()
+		.then((app) => {
+			app.listen({ host: '0.0.0.0', port }, (err, address) => {
+				if (err) {
+					app.log.error(err)
+					process.exit(1)
+				}
+				app.log.info(`server listening on ${address}`)
+			})
+
+			const handleSig = async (signal: string) => {
+				app.log.info({ signal }, 'shutting down')
+				try {
+					await app.close()
+				} finally {
+					process.exit(0)
+				}
 			}
-			app.log.info(`server listening on ${address}`)
+			process.on('SIGINT', handleSig)
+			process.on('SIGTERM', handleSig)
 		})
-	})
-	.catch((err) => {
-		logger.error({ err }, 'failed to start server')
-		process.exit(1)
-	})
+		.catch((err) => {
+			logger.error({ err }, 'failed to start server')
+			process.exit(1)
+		})
+}
