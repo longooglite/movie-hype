@@ -2,6 +2,8 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import fastifySocketIO from 'fastify-socket.io'
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import pg from 'pg'
 import Redis from 'ioredis'
 import pino from 'pino'
 import dotenv from 'dotenv'
@@ -25,7 +27,11 @@ export const buildServer = async () => {
 		cors: { origin: '*' },
 	})
 
-	const prisma = new PrismaClient()
+	const pool = new pg.Pool({
+		connectionString: process.env.DATABASE_URL,
+	})
+	const adapter = new PrismaPg(pool)
+	const prisma = new PrismaClient({ adapter })
 	const redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379')
 
 	// Graceful shutdown: ensure Prisma and Redis disconnect
