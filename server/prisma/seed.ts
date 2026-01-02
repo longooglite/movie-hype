@@ -9,6 +9,7 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter } as any)
 
 const main = async () => {
+	// @TODO Replace this demo seed with idempotent, representative fixtures that match real data shapes
 	const example = await prisma.movie.upsert({
 		where: { tmdbId: 9999999 },
 		update: { title: 'Seeded Example Movie' },

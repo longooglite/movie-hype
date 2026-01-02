@@ -28,6 +28,14 @@ export const buildServer = async () => {
 		cors: { origin: '*' },
 	})
 
+	// @TODO Add analytics and data access routes:
+	// - GET /movies?query=&genre=&limit=&offset=  -> list/search movies
+	// - GET /movies/:id/snapshots?from=&to=&interval= -> time-series for hype/social/boxoffice
+	// - GET /analytics/correlation?metricA=&metricB=&filters= -> correlations (e.g., trailer views vs box office)
+	// - GET /analytics/overview?from=&to= -> summary cards for dashboard
+	// Add zod validation on inputs, sensible defaults, and pagination.
+	// Consider response caching for heavy aggregations (Redis).
+
 	const pool = new pg.Pool({
 		connectionString: process.env.DATABASE_URL,
 	})

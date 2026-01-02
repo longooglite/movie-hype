@@ -1,26 +1,20 @@
 generator client {
   provider = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
-}
 
 model Movie {
   id        String   @id @default(cuid())
   tmdbId    Int      @unique
   title     String
   createdAt DateTime @default(now())
-
   snapshots HistoricalSnapshot[]
 }
-
 model HistoricalSnapshot {
   id         String   @id @default(cuid())
   movieId    String
@@ -32,5 +26,24 @@ model HistoricalSnapshot {
 
   @@index([movieId, timestamp])
 }
+
+// @TODO Data model expansion to support product goals:
+// - Box office:
+//   - Model: BoxOfficeSnapshot { id, movieId, timestamp, domesticGross, internationalGross, budget }
+//   - Indexes: (movieId, timestamp), (budget)
+// - Critics:
+//   - Model: CriticReview { id, movieId, source, score, count, timestamp }
+//   - Unique: (movieId, source, timestamp)
+// - Social signals:
+//   - Model: SocialMention { id, movieId, source, externalId, timestamp, engagement, sentiment }
+//   - Unique: (source, externalId)
+// - Trailers:
+//   - Model: TrailerImpression { id, movieId, platform, videoId, timestamp, views, likes, comments }
+//   - Unique: (platform, videoId, timestamp)
+// - Provenance:
+//   - Enum/Model: Source to normalize providers (reddit, twitter/x, youtube, tmdb, mojo, rt, mc)
+// - Integrity:
+//   - Use @@index for frequent aggregations; ensure onDelete behaviors are correct
+//   - Consider partitioning strategies for very large time-series tables (future)
 
 
