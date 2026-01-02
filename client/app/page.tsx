@@ -40,6 +40,21 @@ const Page = () => {
 				)}
 			</section>
 
+			{/* @TODO Controls:
+			    - Movie search/filter (title, genre, release window)
+			    - Date range selector and interval granularity (hour/day/week)
+			    - Toggles: hype, box office, social, critics, trailer views
+			    - Normalization options (per budget, per screen count) */}
+
+			{/* @TODO Charts:
+			    - Time-series chart overlaying hype, trailer impressions, and box office
+			    - Correlation matrix heatmap for selected metrics
+			    - Breakdown by genre/budget buckets with small multiples */}
+
+			{/* @TODO Tables:
+			    - Top movers (hype delta)
+			    - Upcoming releases vs current hype and critic sentiment */}
+
 			<section>
 				<h2>Live Hype Events</h2>
 				<p>Listening on /events for "hype"…</p>
