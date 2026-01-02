@@ -1,0 +1,22 @@
+export const NORMALIZER_VALUES = {
+	YOUTUBE_VIEWS: {
+		MIN: 10000,
+		MAX: 50000000,
+		WEIGHT: 0.2,
+	},
+	REDDIT_MENTIONS: {
+		MIN: 10,
+		MAX: 5000,
+		WEIGHT: 0.25,
+	},
+	GOOGLE_TRENDS: {
+		MIN: 1,
+		MAX: 100,
+		WEIGHT: 0.3,
+	},
+	TWITTER_MENTIONS: {
+		MIN: 100,
+		MAX: 200000,
+		WEIGHT: 0.25,
+	},
+}
