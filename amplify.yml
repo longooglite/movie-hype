@@ -1,0 +1,28 @@
+version: 1
+applications:
+  - appRoot: .
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm install 22
+            - nvm use 22
+            - corepack enable
+            - yarn --version
+            - yarn install --frozen-lockfile
+        build:
+          commands:
+            - yarn workspace @movie-hype/server generate
+            - yarn workspace @movie-hype/client build
+      artifacts:
+        baseDirectory: client/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - client/node_modules/**/*
+          - client/.next/cache/**/*
+          - server/node_modules/**/*
+    environment:
+      NEXT_PUBLIC_SERVER_URL: $NEXT_PUBLIC_SERVER_URL
